@@ -1,4 +1,4 @@
-name: Deploy React App to AWS EC2
+name: Deploy Node App to AWS EC2
 
 on:
   push:
@@ -13,15 +13,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Deploy via SSH (pull + build on EC2)
+      - name: Deploy via SSH (pull + start app)
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/AWS-Session   # change to your app directory
+            cd /home/ubuntu/AWS-Session   # your app directory
             git fetch --all
             git reset --hard origin/main
+            npm install -g pm2 || true    # install pm2 if not installed
             npm install
-            npm run build
+            pm2 stop server || true       # stop old process if running
+            pm2 start server.js --name node-app
+            pm2 save
+            pm2 status
