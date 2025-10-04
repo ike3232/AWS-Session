@@ -23,9 +23,9 @@ jobs:
             cd /home/ubuntu/AWS-Session   # your app directory
             git fetch --all
             git reset --hard origin/main
-            npm install -g pm2 || true    # install pm2 if not installed
             npm install
-            pm2 stop server || true       # stop old process if running
-            pm2 start server.js --name node-app
-            pm2 save
-            pm2 status
+            npx pm2 stop server || true
+            npx pm2 start server.js --name node-app
+            npx pm2 save
+            npx pm2 status
+
