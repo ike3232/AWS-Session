@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/react-app   # change to your app directory
+            cd /home/ubuntu/react-app   # change to your app directory
             git fetch --all
             git reset --hard origin/main
             npm install
