@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Root route (optional welcome message)
 app.get("/", (req, res) => {
-  res.send("Welcome to the Stripe Integration Backend!");
+  res.send("THIS APP IS REACT APP FOR DEVOPS LEARNING!");
 });
 
 // Stripe checkout session route
