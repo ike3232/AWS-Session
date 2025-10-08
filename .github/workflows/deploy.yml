@@ -23,9 +23,18 @@ jobs:
             cd /home/ubuntu/AWS-Session   # your app directory
             git fetch --all
             git reset --hard origin/main
+
+            # Install Node.js and npm if missing
+            if ! command -v node >/dev/null 2>&1; then
+              echo "Installing Node.js and npm..."
+              curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+              sudo apt install -y nodejs
+            fi
+
             npm install
             npx pm2 stop server || true
             npx pm2 start server.js --name node-app
             npx pm2 save
             npx pm2 status
+
 
