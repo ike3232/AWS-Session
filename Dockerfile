@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-# Set default environment variable for static files
+# Set default environment variable for static fil
 ENV STATIC_DIR=client
 
 EXPOSE 3000
