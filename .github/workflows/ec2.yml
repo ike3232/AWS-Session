@@ -24,7 +24,6 @@ jobs:
         EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
         EC2_USER: ${{ secrets.EC2_USER }}
         EC2_HOST: ${{ secrets.EC2_HOST }}
-        REPO_URL: ${{ secrets.REPO_URL }}
       run: |
         echo "$EC2_SSH_KEY" > key.pem
         chmod 600 key.pem
@@ -37,14 +36,14 @@ jobs:
             sudo apt install -y nodejs npm
           fi
 
-          # Clone or update repo
-          if [ ! -d "app" ]; then
-            git clone $REPO_URL app
+          # Clone or update the AWS-Session repo
+          if [ ! -d "AWS-Session" ]; then
+            git clone https://github.com/ike3232/AWS-Session.git
           else
-            cd app && git pull origin main
+            cd AWS-Session && git pull origin main
           fi
 
-          cd app
+          cd AWS-Session
           npm install
           npm start &
         EOF
