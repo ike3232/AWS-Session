@@ -24,16 +24,26 @@ jobs:
         EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
         EC2_USER: ${{ secrets.EC2_USER }}
         EC2_HOST: ${{ secrets.EC2_HOST }}
+        REPO_URL: ${{ secrets.REPO_URL }}
       run: |
         echo "$EC2_SSH_KEY" > key.pem
         chmod 600 key.pem
 
         ssh -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << 'EOF'
+          # Install Node.js and npm if missing
+          if ! command -v npm &> /dev/null
+          then
+            sudo apt update
+            sudo apt install -y nodejs npm
+          fi
+
+          # Clone or update repo
           if [ ! -d "app" ]; then
             git clone $REPO_URL app
           else
             cd app && git pull origin main
           fi
+
           cd app
           npm install
           npm start &
