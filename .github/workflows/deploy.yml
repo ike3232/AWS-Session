@@ -1,8 +1,0 @@
-name: Deploy Node App to AWS EC2
-
-on:
-  push:
-    branches:
-      - mai
-
-
