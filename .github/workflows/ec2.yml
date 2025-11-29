@@ -36,6 +36,12 @@ jobs:
             sudo apt install -y nodejs npm
           fi
 
+          # Install PM2 globally if missing
+          if ! command -v pm2 &> /dev/null
+          then
+            sudo npm install -g pm2
+          fi
+
           # Clone or update the AWS-Session repo
           if [ ! -d "AWS-Session" ]; then
             git clone https://github.com/ike3232/AWS-Session.git
@@ -45,5 +51,10 @@ jobs:
 
           cd AWS-Session
           npm install
-          npm start &
+
+          # Restart app using PM2 (persistent)
+          pm2 stop aws-session || true
+          pm2 start server.js --name aws-session
+          pm2 save
         EOF
+
